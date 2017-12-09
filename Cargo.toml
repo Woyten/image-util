@@ -1,0 +1,10 @@
+[package]
+name = "image-util"
+version = "0.0.1"
+authors = [ "Woyten Tielesch <woyten.tielesch@online.de>" ]
+
+[dependencies]
+image = "*"
+math-util = { git = "https://github.com/Woyten/math-util.git" }
+nalgebra = "*"
+num = "*"
