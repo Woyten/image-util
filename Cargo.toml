@@ -5,6 +5,8 @@ authors = [ "Woyten Tielesch <woyten.tielesch@online.de>" ]
 
 [dependencies]
 image = "*"
-math-util = { git = "https://github.com/Woyten/math-util.git" }
 nalgebra = "*"
 num = "*"
+
+[dev-dependencies]
+math-util = { git = "https://github.com/Woyten/math-util.git" }

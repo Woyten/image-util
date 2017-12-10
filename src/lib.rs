@@ -1,5 +1,4 @@
 extern crate image;
-extern crate math_util as math;
 extern crate nalgebra;
 extern crate num;
 
