@@ -9,7 +9,6 @@ use image::ImageFormat;
 use image::ImageLuma8;
 use image::ImageResult;
 use nalgebra::DMatrix;
-use nalgebra::Dynamic;
 use nalgebra::Scalar;
 use num::complex::Complex;
 use std::fs::File;
@@ -48,9 +47,9 @@ impl FromRawPixel for Complex<f32> {
 
 pub fn to_matrix<P: FromRawPixel>(image: &DynamicImage) -> DMatrix<P> {
     let as_luma8 = ImageLuma8(image.to_luma());
-    DMatrix::from_iterator_generic(
-        Dynamic::new(num::cast(image.width()).unwrap()),
-        Dynamic::new(num::cast(image.height()).unwrap()),
+    DMatrix::from_iterator(
+        num::cast(image.width()).unwrap(),
+        num::cast(image.height()).unwrap(),
         as_luma8
             .raw_pixels()
             .into_iter()
