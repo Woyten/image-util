@@ -2,11 +2,12 @@
 name = "image-util"
 version = "0.0.1"
 authors = [ "Woyten Tielesch <woyten.tielesch@online.de>" ]
+edition = "2018"
 
 [dependencies]
-image = "*"
-nalgebra = "*"
-num = "*"
+image = "0.20.1"
+nalgebra = "0.16.8"
+num = "0.2.0"
 
 [dev-dependencies]
 math-util = { git = "https://github.com/Woyten/math-util.git" }

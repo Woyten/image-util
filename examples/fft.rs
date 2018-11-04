@@ -1,8 +1,3 @@
-extern crate image_util;
-extern crate math_util;
-extern crate nalgebra;
-extern crate num;
-
 use math_util::fft;
 use math_util::fft::TransformDirection;
 use nalgebra::DMatrix;

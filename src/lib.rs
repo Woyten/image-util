@@ -1,9 +1,5 @@
-extern crate image;
-extern crate nalgebra;
-extern crate num;
-
 use image::DynamicImage;
-use image::GenericImage;
+use image::GenericImageView;
 use image::ImageBuffer;
 use image::ImageFormat;
 use image::ImageLuma8;
@@ -13,6 +9,7 @@ use nalgebra::Scalar;
 use num::complex::Complex;
 use std::fs::File;
 use std::io::BufReader;
+use std::io::Result;
 use std::path::Path;
 
 const U8_MAX: f32 = ::std::u8::MAX as f32;
@@ -23,10 +20,9 @@ pub fn load_image(path: &str) -> ImageResult<DynamicImage> {
     image::load(open_file, ImageFormat::PNG)
 }
 
-pub fn save_image(image: &DynamicImage, path: &str) -> ImageResult<()> {
-    let path_with_extension = Path::new(path).with_extension("png");
-    let mut new_file = File::create(path_with_extension)?;
-    image.save(&mut new_file, ImageFormat::PNG)
+pub fn save_image(image: &DynamicImage, path: &str) -> Result<()> {
+    let path_with_extension = Path::new(path);
+    image.save(path_with_extension)
 }
 
 pub trait FromRawPixel: Scalar {
@@ -63,7 +59,7 @@ pub trait ToRawPixel: Scalar {
 
 impl ToRawPixel for f32 {
     fn to_raw_pixel(&self) -> u8 {
-        num::cast(((self + 1.0) / 2.0 * U8_MAX)).unwrap()
+        num::cast((self + 1.0) / 2.0 * U8_MAX).unwrap()
     }
 }
 
@@ -79,6 +75,11 @@ pub fn to_image<P: ToRawPixel>(matrix: &DMatrix<P>) -> DynamicImage {
         .into_iter()
         .map(ToRawPixel::to_raw_pixel)
         .collect::<Vec<_>>();
-    let buffer = ImageBuffer::from_raw(num::cast(matrix.nrows()).unwrap(), num::cast(matrix.ncols()).unwrap(), pixels).unwrap();
+    let buffer = ImageBuffer::from_raw(
+        num::cast(matrix.nrows()).unwrap(),
+        num::cast(matrix.ncols()).unwrap(),
+        pixels,
+    )
+    .unwrap();
     ImageLuma8(buffer)
 }
